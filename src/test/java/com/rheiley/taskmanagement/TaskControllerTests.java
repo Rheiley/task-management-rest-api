@@ -1,25 +1,25 @@
 package com.rheiley.taskmanagement;
 
-import com.rheiley.taskmanagement.controller.TaskController;
-import com.rheiley.taskmanagement.dto.TaskDto;
-import com.rheiley.taskmanagement.entity.Task;
-import com.rheiley.taskmanagement.mapper.TaskMapper;
-import com.rheiley.taskmanagement.service.TaskService;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import com.rheiley.taskmanagement.controller.*;
+import com.rheiley.taskmanagement.dto.*;
+import com.rheiley.taskmanagement.entity.*;
+import com.rheiley.taskmanagement.exception.*;
+import com.rheiley.taskmanagement.mapper.*;
+import com.rheiley.taskmanagement.service.*;
+import org.junit.jupiter.api.*;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import static org.hamcrest.Matchers.is;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(TaskController.class)
-public class TaskManagementApplicationTests {
+public class TaskControllerTests {
 	private static final String END_POINT_PATH = "/api/tasks";
 	private Task task;
 	private TaskDto taskDto;
@@ -60,7 +60,7 @@ public class TaskManagementApplicationTests {
 
 		taskId = taskDto.getId();
 
-		requestURL = END_POINT_PATH +  "/" + 1;
+		requestURL = END_POINT_PATH +  "/" + taskId;
 
 		Mockito.when(taskService.getTaskById(taskId)).thenReturn(taskDto);
 
@@ -84,6 +84,18 @@ public class TaskManagementApplicationTests {
 	}
 
 	@Test
+	public void invalidDeleteShouldReturnStatusCode404() throws Exception{
+		taskId = 40L;
+
+		requestURL = END_POINT_PATH + "/" + taskId;
+
+		Mockito.doThrow(TaskNotFoundException.class).when(taskService).deleteTask(taskId);
+
+		mockMvc.perform(delete(requestURL))
+				.andExpect(status().isNotFound());
+	}
+
+	@Test
 	public void updateTaskShouldReturnStatusCode200Ok() throws Exception{
 		taskId = 1L;
 
@@ -93,7 +105,7 @@ public class TaskManagementApplicationTests {
 
 		TaskDto updatedTaskDto = TaskMapper.mapToTaskDto(updatedTask);
 
-		String requestBody = objectMapper.writeValueAsString(updatedTask);
+		String requestBody = objectMapper.writeValueAsString(updatedTaskDto);
 
 		Mockito.when(taskService.updateTask(taskId, updatedTaskDto)).thenReturn(updatedTaskDto);
 
