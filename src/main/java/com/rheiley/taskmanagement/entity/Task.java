@@ -1,7 +1,10 @@
 package com.rheiley.taskmanagement.entity;
 
+import com.rheiley.taskmanagement.dto.TaskDto;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -22,4 +25,19 @@ public class Task {
 
     @Column(name = "completed")
     private boolean completed;
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || this.getClass() != obj.getClass()) {
+            return false;
+        }
+        Task other = (Task) obj;
+        return Objects.equals(this.id, other.id) &&
+                Objects.equals(this.taskName, other.taskName) &&
+                Objects.equals(this.description, other.description) &&
+                this.completed == other.completed;
+    }
 }
