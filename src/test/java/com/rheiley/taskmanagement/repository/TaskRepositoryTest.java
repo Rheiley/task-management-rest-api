@@ -37,4 +37,38 @@ public class TaskRepositoryTest {
         assertNotNull(retrievedTask);
         assertEquals(task, retrievedTask);
     }
+
+    @Test
+    public void updateTaskShouldUpdateTask(){
+        Long taskId = 1L;
+
+        Task task = new Task(taskId, "taskName", "description", false);
+
+        taskRepository.save(task);
+
+        Task newTask = taskRepository.findById(taskId).get();
+
+        newTask.setTaskName("newTaskName");
+        newTask.setDescription("newDescription");
+        newTask.setCompleted(true);
+
+        taskRepository.save(newTask);
+
+        Task retrievedUpdatedTask = taskRepository.findById(taskId).get();
+
+        assertEquals(newTask, retrievedUpdatedTask);
+    }
+
+    @Test
+    public void deleteTaskShouldDeleteTask(){
+        Long taskId = 1L;
+
+        Task task = new Task(taskId, "taskName", "description", false);
+
+        taskRepository.save(task);
+
+        taskRepository.deleteById(taskId);
+
+        assertTrue(taskRepository.findById(taskId).isEmpty());
+    }
 }

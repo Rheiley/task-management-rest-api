@@ -114,5 +114,4 @@ public class TaskControllerTests {
 				.content(requestBody))
 				.andExpect(status().isOk());
 	}
-
 }
