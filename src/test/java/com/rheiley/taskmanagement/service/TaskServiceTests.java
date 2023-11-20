@@ -1,4 +1,4 @@
-package com.rheiley.taskmanagement;
+package com.rheiley.taskmanagement.service;
 
 import com.rheiley.taskmanagement.dto.*;
 import com.rheiley.taskmanagement.entity.*;
@@ -11,6 +11,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.*;
+
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.Optional;
 
@@ -37,7 +38,7 @@ public class TaskServiceTests {
     @Test
     public void getTaskByIdShouldReturnTaskDto(){
         Long taskId = 1L;
-        Task task = new Task(1L, "taskName", "description", false);
+        Task task = new Task(taskId, "taskName", "description", false);
 
         TaskDto taskDto = TaskMapper.mapToTaskDto(task);
 
@@ -50,6 +51,34 @@ public class TaskServiceTests {
 
     @Test
     public void updateTaskShouldReturnUpdatedTaskDto(){
+        Long taskId = 1L;
 
+        Task existingTask = new Task(taskId, "currentTaskName", "currentDescription", false);
+
+        Task updatedTask = new Task(taskId, "updatedTaskName", "updatedDescription", true);
+        TaskDto updatedTaskDto = TaskMapper.mapToTaskDto(updatedTask);
+
+        Mockito.when(taskRepository.findById(taskId)).thenReturn(Optional.of(existingTask));
+        Mockito.when(taskRepository.save(Mockito.any(Task.class))).thenAnswer(
+                invocation -> invocation.getArgument(0) // retrieves the Task object passed to the save method in taskRepository
+        );
+
+        TaskDto returnedUpdatedTaskDto = taskService.updateTask(taskId, updatedTaskDto);
+
+        assertEquals(returnedUpdatedTaskDto, updatedTaskDto);
     }
+
+    @Test
+    public void deleteTaskShouldDeleteTask(){
+        Long taskId = 1L;
+
+        Task task = new Task(taskId, "taskName", "description", false);
+
+        Mockito.when(taskRepository.findById(taskId)).thenReturn(Optional.of(task));
+
+        Mockito.doNothing().when(taskRepository).deleteById(taskId);
+
+        assertAll(() -> taskService.deleteTask(taskId)); // asserts that this invocation does not throw an exception
+    }
+
 }

@@ -33,14 +33,14 @@ public class TaskServiceImpl implements TaskService{
     }
 
     @Override
-    public TaskDto updateTask(Long taskId, TaskDto updatedTask) {
+    public TaskDto updateTask(Long taskId, TaskDto updatedTaskDto) {
         Task task = taskRepository.findById(taskId).orElseThrow(
                 () -> new TaskNotFoundException("Task with id " + taskId + " not found.")
         );
 
-        task.setTaskName(updatedTask.getTaskName());
-        task.setDescription(updatedTask.getDescription());
-        task.setCompleted(updatedTask.isCompleted());
+        task.setTaskName(updatedTaskDto.getTaskName());
+        task.setDescription(updatedTaskDto.getDescription());
+        task.setCompleted(updatedTaskDto.isCompleted());
 
         task = taskRepository.save(task);
 

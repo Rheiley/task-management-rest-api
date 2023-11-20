@@ -1,4 +1,4 @@
-package com.rheiley.taskmanagement;
+package com.rheiley.taskmanagement.controller;
 
 import com.rheiley.taskmanagement.controller.*;
 import com.rheiley.taskmanagement.dto.*;
@@ -84,7 +84,7 @@ public class TaskControllerTests {
 	}
 
 	@Test
-	public void invalidDeleteShouldReturnStatusCode404() throws Exception{
+	public void invalidDeleteTaskByIdShouldReturnStatusCode404NotFound() throws Exception{
 		taskId = 40L;
 
 		requestURL = END_POINT_PATH + "/" + taskId;
