@@ -1,11 +1,14 @@
 package com.rheiley.taskmanagement.controller;
 
 import com.rheiley.taskmanagement.dto.TaskDto;
+import com.rheiley.taskmanagement.entity.Task;
 import com.rheiley.taskmanagement.service.TaskService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @CrossOrigin
 @AllArgsConstructor
@@ -27,6 +30,16 @@ public class TaskController {
 
         return ResponseEntity.ok(taskDto);
     }
+
+    @GetMapping("/user-tasks")
+    public ResponseEntity<List<Task>> getUserTasks(@RequestParam String userUid) {
+        // Fetch tasks associated with the user UID
+        List<Task> userTasks = taskService.getTasksByUserUid(userUid);
+
+        // Return the tasks as a response
+        return ResponseEntity.ok(userTasks);
+    }
+
 
     @PutMapping("{id}")
     public ResponseEntity<TaskDto> updateTask(@PathVariable("id") Long taskId, @RequestBody TaskDto updatedTask){

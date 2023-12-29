@@ -9,6 +9,8 @@ import com.rheiley.taskmanagement.service.TaskService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class TaskServiceImpl implements TaskService{
@@ -54,5 +56,10 @@ public class TaskServiceImpl implements TaskService{
         );
 
         taskRepository.deleteById(taskId);
+    }
+
+    @Override
+    public List<Task> getTasksByUserUid(String userUid){
+        return taskRepository.getTasksByUserUid(userUid);
     }
 }
