@@ -44,7 +44,7 @@ public class TaskControllerTests {
 	public void createTaskShouldReturnStatusCode201Created() throws Exception{
 		taskDto = TaskMapper.mapToTaskDto(task);
 
-		Mockito.when(taskService.createTask(taskDto, "123")).thenReturn(taskDto);
+		Mockito.when(taskService.createTask(taskDto)).thenReturn(taskDto);
 
 		String requestBody = objectMapper.writeValueAsString(taskDto);
 

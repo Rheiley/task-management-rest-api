@@ -6,7 +6,7 @@ import com.rheiley.taskmanagement.entity.Task;
 import java.util.List;
 
 public interface TaskService {
-    TaskDto createTask(TaskDto taskDto, String userUid);
+    TaskDto createTask(TaskDto taskDto);
 
     TaskDto getTaskById(Long taskId);
 

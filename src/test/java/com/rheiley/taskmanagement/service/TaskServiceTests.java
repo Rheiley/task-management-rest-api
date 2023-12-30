@@ -30,7 +30,7 @@ public class TaskServiceTests {
 
         Mockito.when(taskRepository.save(Mockito.any(Task.class))).thenReturn(task);
 
-        TaskDto returnedTaskDto = taskService.createTask(taskDto, "123");
+        TaskDto returnedTaskDto = taskService.createTask(taskDto);
 
         assertEquals(taskDto, returnedTaskDto);
     }

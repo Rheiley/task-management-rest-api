@@ -17,7 +17,7 @@ public class TaskServiceImpl implements TaskService{
     private TaskRepository taskRepository;
 
     @Override
-    public TaskDto createTask(TaskDto taskDto, String userUid) {
+    public TaskDto createTask(TaskDto taskDto) {
         Task task = TaskMapper.mapToTask(taskDto);
 
         task = taskRepository.save(task);
