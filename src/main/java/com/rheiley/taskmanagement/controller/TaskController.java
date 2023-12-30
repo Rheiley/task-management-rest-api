@@ -18,8 +18,8 @@ public class TaskController {
     private TaskService taskService;
 
     @PostMapping
-    public ResponseEntity<TaskDto> createTask(@RequestBody TaskDto taskDto){
-        TaskDto task = taskService.createTask(taskDto);
+    public ResponseEntity<TaskDto> createTask(@RequestBody TaskDto taskDto, @RequestParam String userUid){
+        TaskDto task = taskService.createTask(taskDto, userUid);
 
         return new ResponseEntity<>(task, HttpStatus.CREATED);
     }
@@ -33,13 +33,10 @@ public class TaskController {
 
     @GetMapping("/user-tasks")
     public ResponseEntity<List<Task>> getUserTasks(@RequestParam String userUid) {
-        // Fetch tasks associated with the user UID
         List<Task> userTasks = taskService.getTasksByUserUid(userUid);
 
-        // Return the tasks as a response
         return ResponseEntity.ok(userTasks);
     }
-
 
     @PutMapping("{id}")
     public ResponseEntity<TaskDto> updateTask(@PathVariable("id") Long taskId, @RequestBody TaskDto updatedTask){

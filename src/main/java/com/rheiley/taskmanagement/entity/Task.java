@@ -26,9 +26,8 @@ public class Task {
     @Column(name = "completed")
     private boolean completed;
 
-    @ManyToOne
-    @JoinColumn(name = "user_uid")
-    private User user;
+    @Column(name = "user_uid")
+    private String userUid;
 
     @Override
     public boolean equals(Object obj) {

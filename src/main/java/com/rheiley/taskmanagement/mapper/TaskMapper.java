@@ -9,7 +9,8 @@ public class TaskMapper {
                     task.getId(),
                     task.getTaskName(),
                     task.getDescription(),
-                    task.isCompleted()
+                    task.isCompleted(),
+                    task.getUserUid()
             );
         }
 
@@ -18,7 +19,8 @@ public class TaskMapper {
                     taskDto.getId(),
                     taskDto.getTaskName(),
                     taskDto.getDescription(),
-                    taskDto.isCompleted()
+                    taskDto.isCompleted(),
+                    taskDto.getUserUid()
             );
         }
 }

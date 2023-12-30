@@ -17,7 +17,7 @@ public class TaskServiceImpl implements TaskService{
     private TaskRepository taskRepository;
 
     @Override
-    public TaskDto createTask(TaskDto taskDto) {
+    public TaskDto createTask(TaskDto taskDto, String userUid) {
         Task task = TaskMapper.mapToTask(taskDto);
 
         task = taskRepository.save(task);
@@ -58,8 +58,7 @@ public class TaskServiceImpl implements TaskService{
         taskRepository.deleteById(taskId);
     }
 
-    @Override
     public List<Task> getTasksByUserUid(String userUid){
-        return taskRepository.getTasksByUserUid(userUid);
+        return taskRepository.findByUserUid(userUid);
     }
 }

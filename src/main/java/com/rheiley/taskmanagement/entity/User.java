@@ -13,9 +13,4 @@ public class User {
 
     @Column(unique = true)
     private String uid;
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
 }

@@ -37,14 +37,14 @@ public class TaskControllerTests {
 
 	@BeforeEach
 	void setUp(){
-		task = new Task(1L, "Clean room", "Clean room by 5pm", false);
+		task = new Task(1L, "Clean room", "Clean room by 5pm", false, "123");
 	}
 
 	@Test
 	public void createTaskShouldReturnStatusCode201Created() throws Exception{
 		taskDto = TaskMapper.mapToTaskDto(task);
 
-		Mockito.when(taskService.createTask(taskDto)).thenReturn(taskDto);
+		Mockito.when(taskService.createTask(taskDto, "123")).thenReturn(taskDto);
 
 		String requestBody = objectMapper.writeValueAsString(taskDto);
 
@@ -101,7 +101,7 @@ public class TaskControllerTests {
 
 		requestURL = END_POINT_PATH + "/" + taskId;
 
-		Task updatedTask = new Task(taskId, "Wash dishes", "Wash dishes by 3pm", false);
+		Task updatedTask = new Task(taskId, "Wash dishes", "Wash dishes by 3pm", false, "123");
 
 		TaskDto updatedTaskDto = TaskMapper.mapToTaskDto(updatedTask);
 

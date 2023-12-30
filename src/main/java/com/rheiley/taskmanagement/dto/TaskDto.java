@@ -13,6 +13,7 @@ public class TaskDto {
     private String taskName;
     private String description;
     private boolean completed;
+    private String userUid;
 
     @Override
     public boolean equals(Object obj) {
